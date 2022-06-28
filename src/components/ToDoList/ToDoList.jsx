@@ -1,10 +1,20 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import './ToDoList.css';
 
 export default function ToDoList() {
     const [item, setItem] = useState("");
 	const [newItem, setNewItem] = useState([]);
+
+    useEffect(()=>{
+        const existingItems = JSON.parse(localStorage.getItem('existingItemList'));
+        if (existingItems.length !== 0) {
+            setNewItem(existingItems);
+        }
+    },[]);
+    useEffect(()=>{
+        localStorage.setItem('existingItemList',JSON.stringify(newItem));
+    },[newItem]);
     const handleInputChange = (event) => {
         setItem(event.target.value);
     }
@@ -36,7 +46,7 @@ export default function ToDoList() {
                 <ul className="textFont">
                     {
                         newItem.map((val,index) => {
-                            return <li onClick={()=>closeTask(val,index)} style={{backgroundColor:val.status==='active'?'green':'red'}}> {val.itemName} </li>;
+                            return <li key={index} onClick={()=>closeTask(val,index)} style={{backgroundColor:val.status==='active'?'green':'red'}}> {val.itemName} </li>;
                         })
                     }
                 </ul>

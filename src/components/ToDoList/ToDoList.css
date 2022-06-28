@@ -31,6 +31,7 @@ input{
 	font-family: verdana;
 	font-size: 20px;
 	font-weight: 500;
+    list-style-type: none;
 }
 
 .childTwo{
